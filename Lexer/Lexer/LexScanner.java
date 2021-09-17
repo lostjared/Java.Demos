@@ -124,6 +124,11 @@ public class LexScanner {
         return tok;
     }
 
+    public void reset() {
+        index = 0;
+        line = 1;
+    }
+
     public ArrayList<Token> Lex() {
         ArrayList<Token> list = new ArrayList<Token>();
         TOKEN_TYPE state;
@@ -158,6 +163,41 @@ public class LexScanner {
         }
     }
 
+    public boolean isAnotherToken() {
+        if(index < string_data.length())
+            return true;
+        return false;
+    }
+
+    public Token nextToken() {
+        TOKEN_TYPE state;
+        Token t = new Token();
+        while(true) {
+            char ch = curchar();
+            if(ch == 0)
+            return null;
+            state = Token.tokens.get(ch);
+            switch(state) {
+                case TOKEN_NULL:
+                    index++;
+                continue;
+                case TOKEN_DIGIT:
+                    return new Token(line, grabDigits(), TOKEN_TYPE.TOKEN_DIGIT);
+                case TOKEN_CHAR:
+                    return new Token(line, grabChar(), TOKEN_TYPE.TOKEN_CHAR);
+                case TOKEN_SYMBOL:
+                    return new Token(line, grabSymbol(), TOKEN_TYPE.TOKEN_SYMBOL);
+                case TOKEN_STRING:
+                    return new Token(line, grabString(), TOKEN_TYPE.TOKEN_STRING);
+                case TOKEN_SPACE:
+                    if(ch == '\n') line++;
+                         index++;
+                continue;
+            }
+
+        }
+    }
+
     public static void main(String args[]) {
         if(args.length == 0) {
             repl();
@@ -185,6 +225,7 @@ public class LexScanner {
             } 
         }
     }
+
     public static void lexFile(String in_file) {
         try {
             File file = new File(in_file);
@@ -194,7 +235,12 @@ public class LexScanner {
             fis.close();
             String str = new String(data, "UTF-8");
             LexScanner scanner = new LexScanner(str);
-            ArrayList<Token> list = scanner.Lex();
+            ArrayList<Token> list = new ArrayList<Token>();
+            while(scanner.isAnotherToken()) {
+                Token t = scanner.nextToken();
+                if(t != null)
+                    list.add(t);
+            }
             OutputHTML(list);
         } catch(IOException io) {
             System.out.println(io);
