@@ -198,26 +198,26 @@ public class LexScanner {
             switch(state) {
                 case TOKEN_NULL:
                     index++;
-                continue;
+                    continue;
                 case TOKEN_DIGIT:
                     t = new Token(line, grabDigits(), TOKEN_TYPE.TOKEN_DIGIT);
-                break;
+                    break;
                 case TOKEN_CHAR:
                     t = new Token(line, grabChar(), TOKEN_TYPE.TOKEN_CHAR);
-                break;
+                    break;
                 case TOKEN_SYMBOL:
                     t = new Token(line, grabSymbol(), TOKEN_TYPE.TOKEN_SYMBOL);
-                break;
+                    break;
                 case TOKEN_STRING:
                     t = new Token(line, grabString(), TOKEN_TYPE.TOKEN_STRING);
-                break;
+                    break;
                 case TOKEN_SINGLE:
                     t = new Token(line, grabSingle(), TOKEN_TYPE.TOKEN_SINGLE);
                     break;
                 case TOKEN_SPACE:
                     if(ch == '\n') line++;
                          index++;
-                continue;
+                    continue;
             }
             list.add(t);
         }
@@ -245,7 +245,7 @@ public class LexScanner {
             switch(state) {
                 case TOKEN_NULL:
                     index++;
-                continue;
+                    continue;
                 case TOKEN_DIGIT:
                     return new Token(line, grabDigits(), TOKEN_TYPE.TOKEN_DIGIT);
                 case TOKEN_CHAR:
@@ -259,7 +259,7 @@ public class LexScanner {
                 case TOKEN_SPACE:
                     if(ch == '\n') line++;
                          index++;
-                continue;
+                    continue;
             }
 
         }
@@ -270,15 +270,15 @@ public class LexScanner {
             case 0:
                repl();
                 System.exit(0);
-            break;
+                break;
             case 1:
                 lexFile(args[0], null);
                 System.exit(0);
-            break;
+                break;
             case 2:
                 lexFile(args[0], args[1]);
                 System.exit(0);
-            break;
+                break;
         }
    }
 
