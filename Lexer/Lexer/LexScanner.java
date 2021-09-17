@@ -245,18 +245,15 @@ public class LexScanner {
     }
 
     public static void main(String args[]) {
-        try {
-
-            if(args.length == 0) {
-                repl();
-                System.exit(0);
-            } else {
-                lexFile(args[0]);
-                System.exit(0);
-            }
-        }
-        catch(Exception e) {
-            System.out.println(e);
+        if(args.length == 0) {
+            repl();
+            System.exit(0);
+        } else if(args.length == 1) {
+            lexFile(args[0], null);
+            System.exit(0);
+        } else if(args.length == 2) {
+            lexFile(args[0], args[1]);
+            System.exit(0);
         }
     }
 
@@ -278,7 +275,7 @@ public class LexScanner {
         }
     }
 
-    public static void lexFile(String in_file) {
+    public static void lexFile(String in_file, String out_file) {
         try {
             File file = new File(in_file);
             FileInputStream fis = new FileInputStream(file);
@@ -293,7 +290,11 @@ public class LexScanner {
                 if(t != null)
                     list.add(t);
             }
-            OutputHTML(list);
+            if(out_file == null)
+                OutputHTML(list);
+            else
+                OutputHTML(out_file, list);
+
         } catch(IOException io) {
             System.out.println(io);
         }
@@ -306,5 +307,22 @@ public class LexScanner {
             System.out.print("<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
         }
         System.out.print("</table></body></html>\n");
+    }
+
+    public static void OutputHTML(String filename, ArrayList<Token> list) {
+        try {
+            FileWriter fw = new FileWriter(filename);
+            fw.write("<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n");
+            fw.write("<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n");
+            for(Token i : list) {
+                fw.write("<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
+            }
+            fw.write("</table></body></html>\n");
+            fw.close();
+            System.out.println("Wrote to: " + filename);
+ 
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        }
     }
 }

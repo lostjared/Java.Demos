@@ -56,7 +56,6 @@ public class Token {
         for(char i = 'A'; i <= 'Z'; ++i)
             tokens.put(i, TOKEN_TYPE.TOKEN_CHAR);
 
-
         for(char i = '0'; i <= '9'; ++i)
             tokens.put(i, TOKEN_TYPE.TOKEN_DIGIT);
         
