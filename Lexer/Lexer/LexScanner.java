@@ -15,6 +15,7 @@ public class LexScanner {
         index = 0;
     }
 
+
     private char curchar() {
         if(index < string_data.length())
             return string_data.charAt(index);
@@ -96,7 +97,11 @@ public class LexScanner {
         String tok = new String();
         char ch = getchar();
         TOKEN_TYPE state = Token.tokens.get(peekchar());
-
+        if(state == TOKEN_TYPE.TOKEN_STRING) {
+            tok += getchar();
+            ++index;
+            return tok;
+        }
         while(ch != 0 && state != TOKEN_TYPE.TOKEN_STRING && ch != 0) {
             ch = getchar();
             if(ch == '\\') {
@@ -117,6 +122,42 @@ public class LexScanner {
                 continue;
             }
             if(ch != '"') {
+                tok += ch;
+            }
+            state = Token.tokens.get(ch);
+        }
+        return tok;
+    }
+
+    private String grabSingle() {
+        String tok = new String();
+        char ch = getchar();
+        TOKEN_TYPE state = Token.tokens.get(peekchar());
+        if(state == TOKEN_TYPE.TOKEN_SINGLE) {
+            tok += getchar();
+            ++index;
+            return tok;
+        }
+        while(ch != 0 && state != TOKEN_TYPE.TOKEN_SINGLE && ch != 0) {
+            ch = getchar();
+            if(ch == '\\') {
+                if(getchar() == '\'')
+                    tok += '\"';
+                else if(curchar() == 'n') {
+                    tok += "\n";
+                    index--;
+                }
+                else if(curchar() == 't') {
+                    tok += "\t";
+                    index--;
+                }
+                else if(curchar() == 'r') {
+                    tok += "\r";
+                    index--;
+                }
+                continue;
+            }
+            if(ch != '\'') {
                 tok += ch;
             }
             state = Token.tokens.get(ch);
@@ -154,6 +195,9 @@ public class LexScanner {
                 case TOKEN_STRING:
                     t = new Token(line, grabString(), TOKEN_TYPE.TOKEN_STRING);
                 break;
+                case TOKEN_SINGLE:
+                    t = new Token(line, grabSingle(), TOKEN_TYPE.TOKEN_SINGLE);
+                    break;
                 case TOKEN_SPACE:
                     if(ch == '\n') line++;
                          index++;
@@ -189,6 +233,8 @@ public class LexScanner {
                     return new Token(line, grabSymbol(), TOKEN_TYPE.TOKEN_SYMBOL);
                 case TOKEN_STRING:
                     return new Token(line, grabString(), TOKEN_TYPE.TOKEN_STRING);
+                case TOKEN_SINGLE:
+                    return new Token(line, grabSingle(), TOKEN_TYPE.TOKEN_SINGLE);
                 case TOKEN_SPACE:
                     if(ch == '\n') line++;
                          index++;
@@ -199,12 +245,18 @@ public class LexScanner {
     }
 
     public static void main(String args[]) {
-        if(args.length == 0) {
-            repl();
-            System.exit(0);
-        } else {
-            lexFile(args[0]);
-            System.exit(0);
+        try {
+
+            if(args.length == 0) {
+                repl();
+                System.exit(0);
+            } else {
+                lexFile(args[0]);
+                System.exit(0);
+            }
+        }
+        catch(Exception e) {
+            System.out.println(e);
         }
     }
 

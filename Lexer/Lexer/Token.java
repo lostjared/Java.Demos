@@ -3,7 +3,7 @@ package Lexer;
 import java.util.*;
 
 enum TOKEN_TYPE {
-    TOKEN_NULL, TOKEN_CHAR, TOKEN_DIGIT, TOKEN_STRING, TOKEN_SYMBOL, TOKEN_SPACE
+    TOKEN_NULL, TOKEN_CHAR, TOKEN_DIGIT, TOKEN_STRING, TOKEN_SYMBOL, TOKEN_SPACE, TOKEN_SINGLE
 }
 
 public class Token {
@@ -29,12 +29,13 @@ public class Token {
     public static String typeToString(TOKEN_TYPE type) {
         switch(type) {
             case TOKEN_CHAR:
-            return "Character";
+            return "Identifier";
             case TOKEN_DIGIT:
             return "Digit";
             case TOKEN_SYMBOL:
             return "Sybmol";
             case TOKEN_STRING:
+            case TOKEN_SINGLE:
             return "String";
             case TOKEN_SPACE:
             return "Space";
@@ -83,6 +84,7 @@ public class Token {
         tokens.put('\r', TOKEN_TYPE.TOKEN_SPACE);
         tokens.put('\n', TOKEN_TYPE.TOKEN_SPACE);
         tokens.put('\"', TOKEN_TYPE.TOKEN_STRING);
+        tokens.put('\'', TOKEN_TYPE.TOKEN_SINGLE);
     }
 
     public String toString() {
