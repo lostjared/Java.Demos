@@ -51,13 +51,11 @@ public class LexScanner {
             state = Token.tokens.get(ch);
             if(state == TOKEN_TYPE.TOKEN_CHAR || state == TOKEN_TYPE.TOKEN_DIGIT)
                 tok += ch;
+            else if(state == TOKEN_TYPE.TOKEN_NULL)
+                return tok;    
             else {
-                if(peekchar() == 0)
-                return tok;
-                else {
-                    index--;
-                    return tok;
-                }
+                   index--;
+                   return tok;
             }
         }
         return tok;
