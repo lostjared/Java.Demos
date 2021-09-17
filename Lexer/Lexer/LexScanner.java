@@ -84,11 +84,17 @@ public class LexScanner {
 
     private String grabSymbol() {
         String tok = new String();
-        tok += getchar();
+        char fch = getchar();
+        tok += fch;
         char ch = curchar();
         if(ch == '=') {
             tok += ch;
             index++;
+        } else if(fch == '=' || fch == '&' || fch == '|' || fch == '+' || fch == '-') {
+            if(fch == ch) {
+                tok += ch;
+                index++;
+            }
         }
         return tok;
     }

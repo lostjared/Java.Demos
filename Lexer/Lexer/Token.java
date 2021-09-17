@@ -76,6 +76,9 @@ public class Token {
         tokens.put('*', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('/', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('-', TOKEN_TYPE.TOKEN_SYMBOL);
+        tokens.put('&', TOKEN_TYPE.TOKEN_SYMBOL);
+        tokens.put('|', TOKEN_TYPE.TOKEN_SYMBOL);
+        tokens.put('^', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put(',', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('.', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put(' ', TOKEN_TYPE.TOKEN_SPACE);
