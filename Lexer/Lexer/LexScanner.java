@@ -90,7 +90,7 @@ public class LexScanner {
         if(ch == '=') {
             tok += ch;
             index++;
-        } else if(fch == '=' || fch == '&' || fch == '|' || fch == '+' || fch == '-' || fch == '>' || fch == '<') {
+        } else if(fch == '=' || fch == '&' || fch == '|' || fch == '+' || fch == '-' || fch == '>' || fch == '<' || fch == '*') {
             if(fch == ch) {
                 tok += ch;
                 index++;
