@@ -1,2 +1,4 @@
-x = x + 1;
+x = x + 1; // add 1 to X
 print("hello world\n");
+// skip
+x = x +1;//test

@@ -15,6 +15,13 @@ public class LexScanner {
         index = 0;
     }
 
+    private void skipComment() {
+        char ch = getchar();
+        while(ch != '\n' && ch != 0) {
+            ch = getchar();
+        }
+    }
+
 
     private char curchar() {
         if(index < string_data.length())
@@ -181,6 +188,11 @@ public class LexScanner {
             char ch = curchar();
             if(ch == 0)
             return list;
+            else if(ch == '/' && peekchar() == '/') {
+                ++index;
+                skipComment();
+                continue;
+            }
             state = Token.tokens.get(ch);
             Token t = new Token();
             switch(state) {
@@ -224,6 +236,11 @@ public class LexScanner {
             char ch = curchar();
             if(ch == 0)
             return null;
+            else if(ch == '/' && peekchar() == '/') {
+                ++index;
+                skipComment();
+                continue;
+            }
             state = Token.tokens.get(ch);
             switch(state) {
                 case TOKEN_NULL:
