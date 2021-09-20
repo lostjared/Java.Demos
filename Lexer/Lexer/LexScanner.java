@@ -279,6 +279,10 @@ public class LexScanner {
                 lexFile(args[0], args[1]);
                 System.exit(0);
                 break;
+            default:
+                System.out.println("Invalid arguments...\n");
+                break;
+
         }
    }
 
