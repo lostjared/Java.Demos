@@ -33,7 +33,7 @@ public class Token {
             case TOKEN_DIGIT:
                 return "Digit";
             case TOKEN_SYMBOL:
-                return "Sybmol";
+                return "Symbol";
             case TOKEN_STRING:
             case TOKEN_SINGLE:
                 return "String";
