@@ -311,7 +311,7 @@ public class LexScanner {
             fw.write("<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n");
             fw.write("<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n");
             for(Token i : list) {
-                fw.write("<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
+                fw.write("<tr><th>" + i.line + "</th><th>" + Token.convertToHTML(i.token) + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
             }
             fw.write("</table></body></html>\n");
             fw.close();

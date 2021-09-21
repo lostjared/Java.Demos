@@ -45,6 +45,24 @@ public class Token {
         return "NULL_TYPE";
     }
 
+    public static String convertToHTML(String input) {
+        String temp = new String();
+        for (int i = 0; i< input.length(); ++i) {
+            char ch = input.charAt(i);
+            switch(ch) {
+                case '<':
+                    temp += "&lt;";
+                    break;
+                case '>':
+                    temp += "&gt;";
+                    break;
+                default:
+                    temp += ch;
+            }
+        }
+        return temp;
+    }
+
     public static void build_map() {
         tokens = new HashMap<Character, TOKEN_TYPE>();
         for(char i = 0; i < 255; ++i)
@@ -70,6 +88,7 @@ public class Token {
         tokens.put(']', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put(';', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put(':', TOKEN_TYPE.TOKEN_SYMBOL);
+        tokens.put('#', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('!', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('+', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('-', TOKEN_TYPE.TOKEN_SYMBOL);
