@@ -29,7 +29,7 @@ public class Token {
     public static String typeToString(TOKEN_TYPE type) {
         switch(type) {
             case TOKEN_CHAR:
-                return "Identifier";
+                return  "ID";
             case TOKEN_DIGIT:
                 return "Digit";
             case TOKEN_SYMBOL:
