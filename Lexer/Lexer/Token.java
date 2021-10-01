@@ -29,27 +29,45 @@ public class Token {
     public static String typeToString(TOKEN_TYPE type) {
         switch(type) {
             case TOKEN_CHAR:
-            return "Identifier";
+                return  "ID";
             case TOKEN_DIGIT:
-            return "Digit";
+                return "Digit";
             case TOKEN_SYMBOL:
-            return "Sybmol";
+                return "Symbol";
             case TOKEN_STRING:
             case TOKEN_SINGLE:
-            return "String";
+                return "String";
             case TOKEN_SPACE:
-            return "Space";
+                return "Space";
             case TOKEN_NULL:
-            return "NULL";
+                return "NULL";
         }
         return "NULL_TYPE";
     }
 
+    public static String convertToHTML(String input) {
+        String temp = new String();
+        for (int i = 0; i< input.length(); ++i) {
+            char ch = input.charAt(i);
+            switch(ch) {
+                case '<':
+                    temp += "&lt;";
+                    break;
+                case '>':
+                    temp += "&gt;";
+                    break;
+                default:
+                    temp += ch;
+            }
+        }
+        return temp;
+    }
+
     public static void build_map() {
         tokens = new HashMap<Character, TOKEN_TYPE>();
-        for(char i = 0; i < 255; ++i) 
+        for(char i = 0; i < 255; ++i)
             tokens.put(i, TOKEN_TYPE.TOKEN_NULL);
- 
+
         for(char i = 'a'; i <= 'z'; ++i)
             tokens.put(i, TOKEN_TYPE.TOKEN_CHAR);
 
@@ -58,7 +76,7 @@ public class Token {
 
         for(char i = '0'; i <= '9'; ++i)
             tokens.put(i, TOKEN_TYPE.TOKEN_DIGIT);
-        
+
         tokens.put('=', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('<', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('>', TOKEN_TYPE.TOKEN_SYMBOL);
@@ -70,6 +88,9 @@ public class Token {
         tokens.put(']', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put(';', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put(':', TOKEN_TYPE.TOKEN_SYMBOL);
+        tokens.put('#', TOKEN_TYPE.TOKEN_SYMBOL);
+        tokens.put('$', TOKEN_TYPE.TOKEN_SYMBOL);
+        tokens.put('%', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('!', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('+', TOKEN_TYPE.TOKEN_SYMBOL);
         tokens.put('-', TOKEN_TYPE.TOKEN_SYMBOL);

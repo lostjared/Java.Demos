@@ -329,6 +329,17 @@ public class LexScanner {
         }
     }
 
+    public static String lexString(String in_file) {
+        LexScanner scanner = new LexScanner(in_file);
+        ArrayList<Token> list = new ArrayList<Token>();
+        while (scanner.isAnotherToken()) {
+            Token t = scanner.nextToken();
+            if (t != null)
+                list.add(t);
+        }
+        return OutputHTML_String(list);
+}
+
     public static void OutputHTML(ArrayList<Token> list) { 
         System.out.print("<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n");
         System.out.print("<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n");
@@ -336,6 +347,17 @@ public class LexScanner {
             System.out.print("<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
         }
         System.out.print("</table></body></html>\n");
+    }
+
+    public static String OutputHTML_String(ArrayList<Token> list) {
+        String d = new String();
+        d += "<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n";
+        d += "<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n";
+        for(Token i : list) {
+            d += "<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n";
+        }
+        d += "</table></body></html>\n";
+        return d;
     }
 
     public static void OutputHTML(String filename, ArrayList<Token> list) {
