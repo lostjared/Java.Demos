@@ -272,8 +272,8 @@ public class LexScanner {
                 System.exit(0);
                 break;
             case 1:
-                lexFile(args[0], null);
-                System.exit(0);
+               System.out.println(lexFileString(args[0]));
+               System.exit(0);
                 break;
             case 2:
                 lexFile(args[0], args[1]);
@@ -304,6 +304,22 @@ public class LexScanner {
         }
     }
 
+    public static String lexFileString(String in_file) {
+        String str = new String();
+        try {
+            File file = new File(in_file);
+            FileInputStream fis = new FileInputStream(file);
+            byte[] data = new byte[(int) file.length()];
+            fis.read(data);
+            fis.close();
+            str = new String(data, "UTF-8");
+            str = lexString(str);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        }
+        return str;
+    }
+
     public static void lexFile(String in_file, String out_file) {
         try {
             File file = new File(in_file);
@@ -330,15 +346,23 @@ public class LexScanner {
     }
 
     public static String lexString(String in_file) {
+        String d = new String();
+        d += "<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n";
+        d += "<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n";
         LexScanner scanner = new LexScanner(in_file);
-        ArrayList<Token> list = new ArrayList<Token>();
         while (scanner.isAnotherToken()) {
             Token t = scanner.nextToken();
-            if (t != null)
-                list.add(t);
+            if (t != null) {
+                d += OutputHTML_Token(t);
+            }
         }
-        return OutputHTML_String(list);
-}
+        d += "</table></body></html>\n";
+        return d;
+    }
+
+    public static String OutputHTML_Token(Token i) {
+        return "<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n";
+    }
 
     public static void OutputHTML(ArrayList<Token> list) { 
         System.out.print("<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n");
