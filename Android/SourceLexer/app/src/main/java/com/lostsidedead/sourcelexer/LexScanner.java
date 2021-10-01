@@ -1,5 +1,4 @@
 package com.lostsidedead.sourcelexer;
-
 import java.util.*;
 import java.io.*;
 
@@ -232,17 +231,17 @@ public class LexScanner {
     public Token nextToken() {
         TOKEN_TYPE state;
         Token t = new Token();
-        while (true) {
+        while(true) {
             char ch = curchar();
-            if (ch == 0)
+            if(ch == 0)
                 return null;
-            else if (ch == '/' && peekchar() == '/') {
+            else if(ch == '/' && peekchar() == '/') {
                 ++index;
                 skipComment();
                 continue;
             }
             state = Token.tokens.get(ch);
-            switch (state) {
+            switch(state) {
                 case TOKEN_NULL:
                     index++;
                     continue;
@@ -257,7 +256,7 @@ public class LexScanner {
                 case TOKEN_SINGLE:
                     return new Token(line, grabSingle(), TOKEN_TYPE.TOKEN_SINGLE);
                 case TOKEN_SPACE:
-                    if (ch == '\n') line++;
+                    if(ch == '\n') line++;
                     index++;
                     continue;
             }
@@ -283,18 +282,76 @@ public class LexScanner {
         }
     }
 
-    public static String lexString(String in_file) {
-            LexScanner scanner = new LexScanner(in_file);
-            ArrayList<Token> list = new ArrayList<Token>();
-            while (scanner.isAnotherToken()) {
-                Token t = scanner.nextToken();
-                if (t != null)
-                    list.add(t);
-            }
-            return OutputHTML(list);
+    public static String lexFileString(String in_file) {
+        String str = new String();
+        try {
+            File file = new File(in_file);
+            FileInputStream fis = new FileInputStream(file);
+            byte[] data = new byte[(int) file.length()];
+            fis.read(data);
+            fis.close();
+            str = new String(data, "UTF-8");
+            str = lexString(str);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        }
+        return str;
     }
 
-    public static String OutputHTML(ArrayList<Token> list) {
+    public static void lexFile(String in_file, String out_file) {
+        try {
+            File file = new File(in_file);
+            FileInputStream fis = new FileInputStream(file);
+            byte[] data = new byte[(int) file.length()];
+            fis.read(data);
+            fis.close();
+            String str = new String(data, "UTF-8");
+            LexScanner scanner = new LexScanner(str);
+            ArrayList<Token> list = new ArrayList<Token>();
+            while(scanner.isAnotherToken()) {
+                Token t = scanner.nextToken();
+                if(t != null)
+                    list.add(t);
+            }
+            if(out_file == null)
+                OutputHTML(list);
+            else
+                OutputHTML(out_file, list);
+
+        } catch(IOException io) {
+            System.out.println(io);
+        }
+    }
+
+    public static String lexString(String in_file) {
+        String d = new String();
+        d += "<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n";
+        d += "<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n";
+        LexScanner scanner = new LexScanner(in_file);
+        while (scanner.isAnotherToken()) {
+            Token t = scanner.nextToken();
+            if (t != null) {
+                d += OutputHTML_Token(t);
+            }
+        }
+        d += "</table></body></html>\n";
+        return d;
+    }
+
+    public static String OutputHTML_Token(Token i) {
+        return "<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n";
+    }
+
+    public static void OutputHTML(ArrayList<Token> list) {
+        System.out.print("<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n");
+        System.out.print("<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n");
+        for(Token i : list) {
+            System.out.print("<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
+        }
+        System.out.print("</table></body></html>\n");
+    }
+
+    public static String OutputHTML_String(ArrayList<Token> list) {
         String d = new String();
         d += "<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n";
         d += "<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n";
@@ -311,7 +368,7 @@ public class LexScanner {
             fw.write("<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n");
             fw.write("<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n");
             for(Token i : list) {
-                fw.write("<tr><th>" + i.line + "</th><th>" + Token.convertToHTML(i.token) + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
+                fw.write("<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
             }
             fw.write("</table></body></html>\n");
             fw.close();
