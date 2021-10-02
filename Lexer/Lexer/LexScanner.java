@@ -368,7 +368,7 @@ public class LexScanner {
         System.out.print("<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n");
         System.out.print("<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n");
         for(Token i : list) {
-            System.out.print("<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
+            System.out.print("<tr><th>" + i.line + "</th><th>" + Token.convertToHTML(i.token) + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
         }
         System.out.print("</table></body></html>\n");
     }
@@ -378,7 +378,7 @@ public class LexScanner {
         d += "<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n";
         d += "<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n";
         for(Token i : list) {
-            d += "<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n";
+            d += "<tr><th>" + i.line + "</th><th>" + Token.convertToHTML(i.token) + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n";
         }
         d += "</table></body></html>\n";
         return d;
@@ -390,7 +390,7 @@ public class LexScanner {
             fw.write("<!doctype html>\n<html><head><title>Lexer Output</title></head><body>\n");
             fw.write("<table border=\"1\" cellpadding=\"5\" cellspacing=\"3\"><tr><th>Line</th><th>Token</th><th>Type</th></tr>\n");
             for(Token i : list) {
-                fw.write("<tr><th>" + i.line + "</th><th>" + i.token + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
+                fw.write("<tr><th>" + i.line + "</th><th>" + Token.convertToHTML(i.token) + "</th><th>" + Token.typeToString(i.id) + "</th></tr>\n");
             }
             fw.write("</table></body></html>\n");
             fw.close();
