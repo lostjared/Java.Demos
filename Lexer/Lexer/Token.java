@@ -63,6 +63,10 @@ public class Token {
         return temp;
     }
 
+    public String convertIntoHTML() {
+        return convertToHTML(token);
+    }
+
     public static void build_map() {
         tokens = new HashMap<Character, TOKEN_TYPE>();
         for(char i = 0; i < 255; ++i)
