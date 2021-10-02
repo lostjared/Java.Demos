@@ -355,8 +355,8 @@ public class LexScanner {
             if (t != null) {
                 d += OutputHTML_Token(t);
             }
-        }
-        d += "</table></body></html>\n";
+        } 
+        d += "</table><br><br><br><br><br><br></body></html>\n";
         return d;
     }
 
